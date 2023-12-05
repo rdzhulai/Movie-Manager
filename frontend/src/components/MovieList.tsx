@@ -3,7 +3,7 @@ import MovieSection from "./MovieSection"
 const MovieList = () => {
   return (
     <MovieSection title="Movie List">
-      <select className="w-full" size={10}>
+      <select className="w-full h-64" size={10}>
         <option>Movie 1</option>
         <option>Movie 2</option>
         <option>Movie 3</option>
