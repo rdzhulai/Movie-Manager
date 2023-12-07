@@ -4,9 +4,9 @@ import MovieSection from './MovieSection'
 const ActorSelector = () => {
   return (
     <MovieSection title="Actors">
-      <div className='flex h-96'>
+      <div className='flex h-72'>
         <ActorSelectorList title='Available'>
-          <select className="border border-green-500 w-full" size={14}>
+          <select className="border border-green-500 w-full" size={10}>
             <option>Actor 1</option>
             <option>Actor 2</option>
             <option>Actor 3</option>
@@ -36,7 +36,7 @@ const ActorSelector = () => {
           </select>
         </ActorSelectorList>
         <ActorSelectorList title='Selected'>
-          <select className="border border-green-500 w-full" size={14}>
+          <select className="border border-green-500 w-full" size={10}>
             <option>Selected 1</option>
             <option>Selected 2</option>
             <option>Selected 3</option>
