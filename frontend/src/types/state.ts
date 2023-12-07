@@ -1,18 +1,30 @@
 export interface StateType {
     movies: string[];
-    actors: string[];
-    categories: string[];
     selectedMovieId: number | null;
+
+    actors: string[];
     selectedActors: string[] | null;
+
+    categories: string[];
     selectedCategories: string[] | null;
+
     movieName: string | null;
+
+    movieStudios: string[];
     movieStudioId: number | null;
+
+    movieSeries: string[];
     movieSeriesId: number | null;
+
     movieSeriesNumber: number | null;
 }
 
 export enum Actions {
-    SetSelectedMovieId
+    SetSelectedMovieId,
+    AddActor,
+    AddCategory,
+    AddSeries,
+    AddStudio
 }
 
 export interface SetSelectedMovieIdAction {
@@ -20,4 +32,21 @@ export interface SetSelectedMovieIdAction {
     payload: number | null;
 }
 
-export type ActionType = SetSelectedMovieIdAction;
+export interface AddActorAction {
+    type: Actions.AddActor;
+    payload: string;
+}
+export interface AddCategoryAction {
+    type: Actions.AddCategory;
+    payload: string;
+}
+export interface AddSeriesAction {
+    type: Actions.AddSeries;
+    payload: string;
+}
+export interface AddStudioAction {
+    type: Actions.AddStudio;
+    payload: string;
+}
+
+export type ActionType = SetSelectedMovieIdAction | AddActorAction | AddCategoryAction | AddSeriesAction | AddStudioAction;

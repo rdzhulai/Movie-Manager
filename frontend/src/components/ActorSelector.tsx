@@ -1,41 +1,21 @@
-import ActorSelectorList from './ActorSelectorList'
-import MovieSection from './MovieSection'
+import { useContext } from "react";
+import StateContext from "../state/StateContext";
+import ActorSelectorList from "./ActorSelectorList";
+import MovieSection from "./MovieSection";
 
 const ActorSelector = () => {
+  const { state } = useContext(StateContext);
   return (
     <MovieSection title="Actors">
-      <div className='flex h-72'>
-        <ActorSelectorList title='Available'>
+      <div className="flex h-72">
+        <ActorSelectorList title="Available">
           <select className="border border-green-500 w-full" size={10}>
-            <option>Actor 1</option>
-            <option>Actor 2</option>
-            <option>Actor 3</option>
-            <option>Actor 4</option>
-            <option>Actor 5</option>
-            <option>Actor 6</option>
-            <option>Actor 7</option>
-            <option>Actor 8</option>
-            <option>Actor 9</option>
-            <option>Actor 10</option>
-            <option>Actor 11</option>
-            <option>Actor 12</option>
-            <option>Actor 13</option>
-            <option>Actor 1</option>
-            <option>Actor 2</option>
-            <option>Actor 3</option>
-            <option>Actor 4</option>
-            <option>Actor 5</option>
-            <option>Actor 6</option>
-            <option>Actor 7</option>
-            <option>Actor 8</option>
-            <option>Actor 9</option>
-            <option>Actor 10</option>
-            <option>Actor 11</option>
-            <option>Actor 12</option>
-            <option>Actor 13</option>
+            {state?.actors.map((actor, index) => (
+              <option key={index}>{actor}</option>
+            ))}
           </select>
         </ActorSelectorList>
-        <ActorSelectorList title='Selected'>
+        <ActorSelectorList title="Selected">
           <select className="border border-green-500 w-full" size={10}>
             <option>Selected 1</option>
             <option>Selected 2</option>
@@ -67,7 +47,7 @@ const ActorSelector = () => {
         </ActorSelectorList>
       </div>
     </MovieSection>
-  )
-}
+  );
+};
 
-export default ActorSelector
+export default ActorSelector;

@@ -9,12 +9,14 @@ export const initialState: StateType = {
         "The Wizard of Oz"
     ],
     actors: [],
-    categories: [],
+    categories: ["fantasy", "drama", "horror", "cat"],
     selectedMovieId: null,
     selectedActors: null,
     selectedCategories: null,
     movieName: null,
     movieStudioId: null,
     movieSeriesId: null,
-    movieSeriesNumber: null
+    movieSeriesNumber: null,
+    movieStudios: [],
+    movieSeries: []
 };
