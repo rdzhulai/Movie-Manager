@@ -8,15 +8,41 @@ export const initialState: StateType = {
         "Catwoman",
         "The Wizard of Oz"
     ],
-    actors: [],
-    categories: ["fantasy", "drama", "horror", "cat"],
-    selectedMovieId: null,
-    selectedActors: null,
-    selectedCategories: null,
-    movieName: null,
-    movieStudioId: null,
-    movieSeriesId: null,
-    movieSeriesNumber: null,
-    movieStudios: [],
-    movieSeries: []
+    actors: [
+        'Tom Hanks',
+        'Meryl Streep',
+        'Leonardo DiCaprio',
+        'Julia Roberts',
+        'Brad Pitt',
+        'Angelina Jolie',
+        'Denzel Washington',
+        'Jennifer Lawrence',
+        'Johnny Depp',
+        'Cate Blanchett'
+    ],
+    categories: [
+        "Action",
+        "Comedy",
+        "Drama",
+        "Science Fiction",
+        "Horror",
+        "Romance",
+        "Adventure",
+        "Fantasy",
+        "Documentary",
+        "Thriller"
+    ],
+    movieStudios: [
+        "Starlight Pictures",
+        "Cinematic Ventures",
+        "Epic Productions",
+        "SilverScreen Studios",
+        "Dreamscape Entertainment",
+        "Phoenix Films",
+        "Mystic Motion Pictures",
+        "Galactic Studios",
+        "Pinnacle Pictures",
+        "Velocity Studios"
+    ],
+    movieSeries: ["Dark Knight Trilogy", "Harry Potter", "Star Wars"]
 };
