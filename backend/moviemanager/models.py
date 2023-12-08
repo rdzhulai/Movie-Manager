@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
-from database import Base
+from .database import Base
 
 movie_actors = Table(
     "movie_actors",
@@ -29,7 +29,7 @@ class Actor(Base):
     )
 
 
-class Categories(Base):
+class Category(Base):
     __tablename__ = "categories"
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
@@ -68,7 +68,7 @@ class Movie(Base):
     studios = relationship("Studio", back_populates="movies", uselist=False)
 
 
-class Studios(Base):
+class Studio(Base):
     __tablename__ = "studios"
 
     id = Column(Integer, primary_key=True)

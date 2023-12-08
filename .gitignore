@@ -1,3 +1,7 @@
 venv/
 __pychache__
 node_modules:w
+*.db
+
+*.pyc
+*.mp4
