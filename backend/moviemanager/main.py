@@ -11,10 +11,17 @@ from .util import list_files
 
 from .database import SessionLocal, engine
 from .models import Base
+from fastapi.middleware.cors import CORSMiddleware
 
 config = get_config()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"https?://(?:127\.0\.1|localhost):300[0-9]",
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,7 +40,7 @@ def hello():
     return "Hello FastAPI"
 
 
-@app.get("/import_movies", response_model=List[Movie])
+@app.post("/movies", response_model=List[Movie])
 def import_movies(db: Session = Depends(get_db)):
     try:
         files = list_files(config["imports"])

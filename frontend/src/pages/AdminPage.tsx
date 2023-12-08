@@ -1,5 +1,5 @@
 import { Field, Formik, FormikHelpers } from "formik";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import StateContext from "../state/StateContext";
 import { Actions } from "../types/state";
 
@@ -14,6 +14,22 @@ const initialValues: AdminFormValuesType = {
 };
 
 const AdminPage = () => {
+  const [importStatus, setImportStatus] = useState("");
+
+  const onImportMovies = async () => {
+    const responce = await fetch(`${process.env.REACT_APP_BACKEND}/movies`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await responce.json();
+
+    if (responce.ok) {
+      setImportStatus("Successfully imported movie files");
+    } else {
+      setImportStatus("Failed to import movie files");
+    }
+  };
+
   const { dispatch } = useContext(StateContext);
 
   const onSubmit = async (
@@ -103,6 +119,19 @@ const AdminPage = () => {
           )}
         </Formik>
       </div>
+
+      <div className="mt-3 mx-auto w-max">
+        <button
+          className="p-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold"
+          type="button"
+          onClick={onImportMovies}
+        >
+          Import Movies
+        </button>
+      </div>
+      {importStatus && (
+        <div className="text-center pt-3 font-mono">{importStatus}</div>
+      )}
     </>
   );
 };

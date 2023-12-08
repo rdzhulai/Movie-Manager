@@ -1,3 +1,4 @@
+import glob
 import os
 from typing import List
 
@@ -8,9 +9,13 @@ from .models import Movie
 config = get_config()
 
 
+def listdir_nohidden(path):
+    return (glob.glob(os.path.join(path, "*")),)
+
+
 def list_files(path: str) -> List[str]:
     try:
-        files = sorted(os.listdir(path))
+        files = sorted((f for f in os.listdir(path) if not f.startswith(".")))
     except:
         raise Exception(f"Unable to read the path {path}")
 
