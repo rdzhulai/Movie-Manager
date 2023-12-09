@@ -6,6 +6,21 @@ from sqlalchemy.orm import Session
 from . import models, util
 
 
+def get_all_movies(db: Session) -> List[models.Movie]:
+    return (
+        db.query(models.Movie)
+        .outerjoin(models.Studio)
+        .outerjoin(models.Series)
+        .order_by(
+            models.Movie.processed,
+            models.Studio.name,
+            models.Series.name,
+            models.Movie.name,
+        )
+        .all()
+    )
+
+
 def add_movie(
     db: Session,
     filename: str,

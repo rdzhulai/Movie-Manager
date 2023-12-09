@@ -1,10 +1,9 @@
+from typing import List
 from sqlalchemy.orm import Session
 from os.path import splitext
 from fastapi import Depends, FastAPI, HTTPException, status
 
-from .crud import *
-
-from .schemas import Movie
+from . import schemas, crud
 
 from .config import get_config
 from .util import list_files
@@ -40,7 +39,12 @@ def hello():
     return "Hello FastAPI"
 
 
-@app.post("/movies", response_model=List[Movie])
+@app.get("/movies", response_model=List[schemas.MovieFile])
+def get_movies(db: Session = Depends(get_db)):
+    return crud.get_all_movies(db)
+
+
+@app.post("/movies", response_model=List[schemas.Movie])
 def import_movies(db: Session = Depends(get_db)):
     try:
         files = list_files(config["imports"])
@@ -52,7 +56,7 @@ def import_movies(db: Session = Depends(get_db)):
 
     for file in files:
         name, _ = splitext(file)
-        movie = add_movie(db, file, name)
+        movie = crud.add_movie(db, file, name)
 
         if movies is not None:
             movies.append(movie)

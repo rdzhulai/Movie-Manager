@@ -1,5 +1,5 @@
 export interface StateType {
-    movies: string[];
+    movies: MovieFileType[];
 
     actors: string[];
 
@@ -10,11 +10,18 @@ export interface StateType {
     movieSeries: string[];
 }
 
+
+export interface MovieFileType {
+    id: number;
+    filename: string;
+}
+
 export enum Actions {
     AddActor,
     AddCategory,
     AddSeries,
-    AddStudio
+    AddStudio,
+    SetMovies,
 }
 
 export interface AddActorAction {
@@ -33,5 +40,14 @@ export interface AddStudioAction {
     type: Actions.AddStudio;
     payload: string;
 }
+export interface SetMoviesAction {
+    type: Actions.SetMovies;
+    payload: MovieFileType[];
+}
 
-export type ActionType = AddActorAction | AddCategoryAction | AddSeriesAction | AddStudioAction;
+export type ActionType =
+    | SetMoviesAction
+    | AddActorAction
+    | AddCategoryAction
+    | AddSeriesAction
+    | AddStudioAction;

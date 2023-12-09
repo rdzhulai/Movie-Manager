@@ -1,13 +1,7 @@
 import { StateType } from "../types/state";
 
 export const initialState: StateType = {
-    movies: [
-        "Harry Poter and the Sorcerer's Stone",
-        "The Dark Knight Rises",
-        "Avatar",
-        "Catwoman",
-        "The Wizard of Oz"
-    ],
+    movies: [],
     actors: [
         'Tom Hanks',
         'Meryl Streep',

@@ -10,6 +10,8 @@ const reducer = (state: StateType, action: ActionType) => {
             return { ...state, series: [...state.movieSeries, action.payload] }
         case Actions.AddStudio:
             return { ...state, studio: [...state.movieStudios, action.payload] }
+        case Actions.SetMovies:
+            return { ...state, movies: [...action.payload] };
         default:
             return state;
     }

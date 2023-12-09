@@ -2,11 +2,6 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class MovieBase(BaseModel):
-    id: int
-    filename: str
-
-
 class MovieData(BaseModel):
     id: int
     name: str
@@ -15,19 +10,31 @@ class MovieData(BaseModel):
         from_attributes = True
 
 
-class Actor(MovieBase):
+class Actor(MovieData):
     pass
 
 
-class Category(MovieBase):
+class Category(MovieData):
     pass
 
 
-class Series(MovieBase):
+class Series(MovieData):
     pass
 
 
-class Studio(MovieBase):
+class Studio(MovieData):
+    pass
+
+
+class MovieBase(BaseModel):
+    id: int
+    filename: str
+
+    class Congfig:
+        from_attributes = True
+
+
+class MovieFile(MovieBase):
     pass
 
 
@@ -38,6 +45,3 @@ class Movie(MovieBase):
     series: Optional[List[Series]] = None
     series_number: Optional[int] = None
     studio: Optional[Studio] = None
-
-    class Config:
-        from_attributes = True
