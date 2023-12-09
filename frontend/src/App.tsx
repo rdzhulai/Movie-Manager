@@ -1,12 +1,12 @@
 import { useReducer } from "react";
 import Container from "./components/Container";
-import MainPage from "./pages/MainPage";
 import { initialState } from "./state/initialState";
 import reducer from "./state/reducer";
 import StateContext from "./state/StateContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import AdminPage from "./pages/AdminPage";
+import MainPage from "./pages/MainPage";
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 

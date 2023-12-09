@@ -1,7 +1,5 @@
-import { useContext } from "react";
-import StateContext from "../state/StateContext";
+import { useState } from "react";
 import { Field, Formik, FormikHelpers } from "formik";
-import { Actions } from "../types/state";
 
 interface AdminFormValuesType {
   name: string;
@@ -14,24 +12,89 @@ const initialValues: AdminFormValuesType = {
 };
 
 const AdminAddForm = () => {
-  const { dispatch } = useContext(StateContext);
+  const [addStatus, setAddStatus] = useState("");
 
-  const onSubmit = async (
-    values: AdminFormValuesType,
+  const AddMovieProperty = async (
+    { name, selection }: AdminFormValuesType,
     helpers: FormikHelpers<AdminFormValuesType>
   ) => {
-    switch (values.selection) {
+    let response, data;
+    switch (selection) {
       case "actor":
-        dispatch({ type: Actions.AddActor, payload: values.name });
+        response = await fetch(`${process.env.REACT_APP_BACKEND}/actors`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        data = await response.json();
+        if (response.ok) {
+          setAddStatus(`Actor ${name} added`);
+        } else {
+          switch (response.status) {
+            case 409:
+              setAddStatus(`Actor ${name} already exists`);
+              break;
+            default:
+              setAddStatus("Unknown response from backend");
+          }
+        }
         break;
       case "category":
-        dispatch({ type: Actions.AddCategory, payload: values.name });
+        response = await fetch(`${process.env.REACT_APP_BACKEND}/categories`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        data = await response.json();
+        if (response.ok) {
+          setAddStatus(`Category ${name} added`);
+        } else {
+          switch (response.status) {
+            case 409:
+              setAddStatus(`Category ${name} already exists`);
+              break;
+            default:
+              setAddStatus("Unknown response from backend");
+          }
+        }
         break;
       case "series":
-        dispatch({ type: Actions.AddSeries, payload: values.name });
+        response = await fetch(`${process.env.REACT_APP_BACKEND}/series`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        data = await response.json();
+        if (response.ok) {
+          setAddStatus(`Series ${name} added`);
+        } else {
+          switch (response.status) {
+            case 409:
+              setAddStatus(`Series ${name} already exists`);
+              break;
+            default:
+              setAddStatus("Unknown response from backend");
+          }
+        }
         break;
       case "studio":
-        dispatch({ type: Actions.AddStudio, payload: values.name });
+        response = await fetch(`${process.env.REACT_APP_BACKEND}/studios`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        data = await response.json();
+        if (response.ok) {
+          setAddStatus(`Studio ${name} added`);
+        } else {
+          switch (response.status) {
+            case 409:
+              setAddStatus(`Studio ${name} already exists`);
+              break;
+            default:
+              setAddStatus("Unknown response from backend");
+          }
+        }
         break;
 
       default:
@@ -39,9 +102,10 @@ const AdminAddForm = () => {
     }
     helpers.setFieldValue("name", "");
   };
+
   return (
     <div className="border border-black w-max mx-auto p-4">
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Formik initialValues={initialValues} onSubmit={AddMovieProperty} t>
         {(formik) => (
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-2">
@@ -52,9 +116,6 @@ const AdminAddForm = () => {
                   name="selection"
                   value="actor"
                 />
-                Actor
-              </label>
-              <label>
                 <Field
                   className="mx-1"
                   type="radio"
@@ -90,6 +151,7 @@ const AdminAddForm = () => {
                 required
               />
             </div>
+            {addStatus && <h2 className="text-center">{addStatus}</h2>}
             <div className="my-2">
               <button
                 className="text-center bg-green-700 hover:bg-green-600 uppercase tracking-wider font-semibold text-lg text-white rounded p-2 w-full"

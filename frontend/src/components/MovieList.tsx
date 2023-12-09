@@ -3,7 +3,6 @@ import MovieSection from "./MovieSection";
 import StateContext from "../state/StateContext";
 import { MovieSectionProps } from "../types/form";
 import { Actions } from "../types/state";
-import { wait } from "@testing-library/user-event/dist/utils";
 
 const MovieList = ({ formik }: MovieSectionProps) => {
   const [loading, setLoading] = useState(true);

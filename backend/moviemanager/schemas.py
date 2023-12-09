@@ -2,6 +2,10 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
+class MovieProperty(BaseModel):
+    name: str
+
+
 class MovieData(BaseModel):
     id: int
     name: str
@@ -45,3 +49,11 @@ class Movie(MovieBase):
     series: Optional[List[Series]] = None
     series_number: Optional[int] = None
     studio: Optional[Studio] = None
+
+
+class MessageSchema(BaseModel):
+    message: str
+
+
+class HTTPExceptionSchema(BaseModel):
+    detail: MessageSchema

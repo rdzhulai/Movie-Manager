@@ -6,6 +6,25 @@ from sqlalchemy.orm import Session
 from . import models, util
 
 
+#######################################################################
+
+
+def get_all_actors(db: Session) -> List[models.Actor]:
+    return db.query(models.Actor).order_by(models.Actor.name).all()
+
+
+def get_all_categories(db: Session) -> List[models.Category]:
+    return db.query(models.Category).order_by(models.Category.name).all()
+
+
+def get_all_studios(db: Session) -> List[models.Studio]:
+    return db.query(models.Studio).order_by(models.Studio.name).all()
+
+
+def get_all_series(db: Session) -> List[models.Series]:
+    return db.query(models.Series).order_by(models.Series.name).all()
+
+
 def get_all_movies(db: Session) -> List[models.Movie]:
     return (
         db.query(models.Movie)
@@ -19,6 +38,57 @@ def get_all_movies(db: Session) -> List[models.Movie]:
         )
         .all()
     )
+
+
+######################################################################
+
+
+def add_actor(db: Session, name: str) -> models.Actor:
+    actor = models.Actor(name=name)
+    try:
+        db.add(actor)
+        db.commit()
+        db.refresh(actor)
+    except IntegrityError:
+        db.rollback()
+        return None
+    return actor
+
+
+def add_category(db: Session, name: str) -> models.Category:
+    category = models.Category(name=name)
+    try:
+        db.add(category)
+        db.commit()
+        db.refresh(category)
+    except IntegrityError:
+        db.rollback()
+        return None
+    return category
+
+
+def add_series(db: Session, name: str) -> models.Series:
+    series = models.Series(name=name)
+    try:
+        db.add(series)
+        db.commit()
+        db.refresh(series)
+    except IntegrityError:
+        db.rollback()
+        return None
+    return series
+
+
+def add_studio(db: Session, name: str) -> models.Studio:
+    studio = models.Studio(name=name)
+    try:
+        db.add(studio)
+        db.commit()
+        db.refresh(studio)
+    except IntegrityError:
+        db.rollback()
+        return None
+    return studio
 
 
 def add_movie(
