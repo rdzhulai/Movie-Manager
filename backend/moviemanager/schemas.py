@@ -2,8 +2,8 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class MovieProperty(BaseModel):
-    name: str
+################################################################################
+# Database models
 
 
 class MovieData(BaseModel):
@@ -51,9 +51,28 @@ class Movie(MovieBase):
     studio: Optional[Studio] = None
 
 
-class MessageSchema(BaseModel):
+################################################################################
+# JSON schemas
+
+
+class MovieProperty(BaseModel):
+    name: str
+
+
+class MovieUpdateSchema(BaseModel):
+    name: Optional[str] = None
+    series_id: Optional[int] = None
+    series_number: Optional[int] = None
+    studio_id: Optional[int] = None
+
+
+################################################################################
+# Exception models
+
+
+class HTTPExceptionMessage(BaseModel):
     message: str
 
 
 class HTTPExceptionSchema(BaseModel):
-    detail: MessageSchema
+    detail: HTTPExceptionMessage

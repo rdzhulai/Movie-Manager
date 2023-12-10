@@ -116,6 +116,9 @@ const AdminAddForm = () => {
                   name="selection"
                   value="actor"
                 />
+                Actor
+              </label>
+              <label>
                 <Field
                   className="mx-1"
                   type="radio"

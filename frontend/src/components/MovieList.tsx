@@ -17,6 +17,21 @@ const MovieList = ({ formik }: MovieSectionProps) => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (formik.values.movieId) {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND}/movies/${formik.values.movieId}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          formik.setFieldValue("movieName", data.name);
+          formik.setFieldValue("movieCategories", data.category);
+        }
+      }
+    })();
+  }, [formik.values.movieId]);
+
   return (
     <MovieSection title="Movie List">
       {loading ? (

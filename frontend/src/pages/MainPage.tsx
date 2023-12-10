@@ -7,8 +7,8 @@ import MovieData from "../components/MovieData";
 
 const initialValues: MainPageFormValuesType = {
   movieId: undefined,
-  movieStudioId: undefined,
-  movieSeriesId: undefined,
+  movieStudioId: "",
+  movieSeriesId: "",
   movieActorAvailableId: undefined,
   movieActorSelectedId: undefined,
   movieCategories: undefined,
@@ -20,7 +20,23 @@ const onSubmit = async (
   values: MainPageFormValuesType,
   helpers: FormikHelpers<MainPageFormValuesType>
 ) => {
-  console.log(values);
+  if (values.movieId) {
+    const body = {
+      name: values.movieName ? values.movieName : null,
+      seriesId: values.movieSeriesId ? +values.movieSeriesId : null,
+      seriesNumber: values.movieSeriesNumber ? +values.movieSeriesNumber : null,
+      studioId: values.movieStudioId ? +values.movieStudioId : null,
+    };
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND}/movies/${values.movieId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    );
+    const data = await response.json();
+  }
 };
 
 const MainPage = () => {

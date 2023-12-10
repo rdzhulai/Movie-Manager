@@ -34,6 +34,50 @@ def get_db():
         db.close()
 
 
+@app.put(
+    "/movies/{id}",
+    response_model=schemas.Movie,
+    responses={
+        404: {
+            "model": schemas.HTTPExceptionSchema,
+            "description": "Invalid ID",
+        }
+    },
+)
+def update_movie_data(
+    id: int,
+    data: schemas.MovieUpdateSchema,
+    db: Session = Depends(get_db),
+):
+    movie = crud.update_movie(db, id, data)
+    if movie is None:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail={"message": f"Movie with id {id} does not exist"},
+        )
+    return movie
+
+
+@app.get(
+    "/movies/{id}",
+    response_model=schemas.Movie,
+    responses={
+        404: {
+            "model": schemas.HTTPExceptionSchema,
+            "description": "Invalid ID",
+        }
+    },
+)
+def get_movie(id: int, db: Session = Depends(get_db)):
+    movie = crud.get_movie(db, id)
+    if movie is None:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail={"message": f"Movie with id {id} does not exist"},
+        )
+    return movie
+
+
 @app.get("/actors", response_model=List[schemas.Actor])
 def get_actors(db: Session = Depends(get_db)):
     return crud.get_all_actors(db)
@@ -155,7 +199,7 @@ def add_studio(data: schemas.MovieProperty, db: Session = Depends(get_db)):
         }
     },
 )
-def add_category(data: schemas.MovieProperty, db: Session = Depends(get_db)):
+def add_series(data: schemas.MovieProperty, db: Session = Depends(get_db)):
     series = crud.add_series(db, data.name)
     if series is None:
         raise HTTPException(

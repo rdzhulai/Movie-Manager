@@ -6,3 +6,6 @@ node_modules:w
 *.pyc
 *.mp4
 *.pyc
+.vscode/settings.json
+backend/moviemanager/__pycache__/main.cpython-310.pyc
+backend/moviemanager/__pycache__/models.cpython-310.pyc

@@ -3,7 +3,7 @@ from typing import List, Optional
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from . import models, util
+from . import models, util, schemas
 
 
 #######################################################################
@@ -40,10 +40,14 @@ def get_all_movies(db: Session) -> List[models.Movie]:
     )
 
 
+def get_movie(db: Session, id: int) -> models.Movie:
+    return db.query(models.Movie).where(models.Movie.id == id).first()
+
+
 ######################################################################
 
 
-def add_actor(db: Session, name: str) -> models.Actor:
+def add_actor(db: Session, name: str) -> models.Actor | None:
     actor = models.Actor(name=name)
     try:
         db.add(actor)
@@ -55,7 +59,7 @@ def add_actor(db: Session, name: str) -> models.Actor:
     return actor
 
 
-def add_category(db: Session, name: str) -> models.Category:
+def add_category(db: Session, name: str) -> models.Category | None:
     category = models.Category(name=name)
     try:
         db.add(category)
@@ -67,7 +71,7 @@ def add_category(db: Session, name: str) -> models.Category:
     return category
 
 
-def add_series(db: Session, name: str) -> models.Series:
+def add_series(db: Session, name: str) -> models.Series | None:
     series = models.Series(name=name)
     try:
         db.add(series)
@@ -79,7 +83,7 @@ def add_series(db: Session, name: str) -> models.Series:
     return series
 
 
-def add_studio(db: Session, name: str) -> models.Studio:
+def add_studio(db: Session, name: str) -> models.Studio | None:
     studio = models.Studio(name=name)
     try:
         db.add(studio)
@@ -101,7 +105,7 @@ def add_movie(
     actors: Optional[List[models.Actor]] = None,
     categories: Optional[List[models.Category]] = None,
     processed: Optional[bool] = False,
-) -> models.Movie:
+) -> models.Movie | None:
     """Adds a movie to the database.
 
     Args:
@@ -146,5 +150,35 @@ def add_movie(
         return None
 
     util.migrate_file(movie)
+
+    return movie
+
+
+def update_movie(
+    db: Session, id: int, data: schemas.MovieUpdateSchema
+) -> models.Movie | None:
+    movie = get_movie(db, id)
+
+    if movie is None:
+        return None
+
+    if (
+        data.name == movie.name
+        and data.studio_id == movie.studio_id
+        and data.series_id == movie.series_id
+        and data.series_number == movie.series_number
+    ):
+        return movie
+
+    movie.name = data.name  # type: ignore
+    movie.studio_id = data.studio_id  # type: ignore
+    movie.series_id = data.series_id  # type: ignore
+    movie.series_number = data.series_number  # type: ignore
+
+    if not movie.processed:  # type: ignore
+        movie.processed = True  # type: ignore
+
+    db.commit()
+    db.refresh(movie)
 
     return movie
